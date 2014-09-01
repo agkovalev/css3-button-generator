@@ -1,0 +1,18 @@
+{
+  	"name": "css3-button-generator",
+  	"version": "0.0.1",
+  	"devDependencies": {
+		"grunt": "latest",
+		"load-grunt-config": "latest",
+		"grunt-contrib-jshint": "latest",
+		"grunt-contrib-concat": "latest",
+		"grunt-contrib-uglify": "latest",
+		"grunt-contrib-cssmin": "latest",
+		"grunt-contrib-htmlmin": "latest",
+		"grunt-ftpush": "latest",
+		"grunt-contrib-watch": "latest",
+		"grunt-remove-logging": "latest",
+		"grunt-notify": "latest",
+		"time-grunt": "latest"
+  	}
+}
