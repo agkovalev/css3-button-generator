@@ -1,5 +1,6 @@
 {
   	"name": "css3-button-generator",
+  	"description": "Homework 2 for Loftschool 2",
   	"version": "0.0.1",
   	"devDependencies": {
 		"grunt": "latest",
