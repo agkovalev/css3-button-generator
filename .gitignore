@@ -1,0 +1,9 @@
+#Shortcuts
+*.lnk
+
+#Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+#Node.JS
+node_modules
