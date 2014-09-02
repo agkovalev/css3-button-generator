@@ -1,5 +1,6 @@
 module.exports = function(grunt){
 	"use strict";
+	
 	// measures the time each task takes
 	require('time-grunt')(grunt);
 	
@@ -47,9 +48,9 @@ module.exports = function(grunt){
 			},
 			dist: {
 				src: [
-					'<%= vars.dirs.src %>' + '/js/*.js',
+					'<%= vars.dirs.src %>/js/*.js',
 				],
-				dest: '<%= vars.dirs.min %>' + '/built.js'
+				dest: '<%= vars.dirs.min %>/built.js'
 			}
 		},
 
@@ -64,18 +65,18 @@ module.exports = function(grunt){
 			}
 		},
 
-		less: {
-			bootswatch: {
-				options: {
-					paths: [
-						// "min"
-					]
-				},
-				files: {
-					'<%= vars.dirs.src %>/css/lumen.css': '<%= vars.dirs.src %>/less/*.less'
-				}
-			}
-		},
+		// less: {
+		// 	bootswatch: {
+		// 		options: {
+		// 			paths: [
+		// 				// "min"
+		// 			]
+		// 		},
+		// 		files: {
+		// 			'<%= vars.dirs.src %>/css/lumen.css': '<%= vars.dirs.src %>/less/*.less'
+		// 		}
+		// 	}
+		// },
 
 		cssmin: {
 			add_banner: {
@@ -98,7 +99,7 @@ module.exports = function(grunt){
 					collapseWhitespace: true
 				},
 				files: {
-					'index.html': 		'<%= vars.dirs.src %>' + '/html/index.html',
+					'index.html': 		'<%= vars.dirs.src %>/html/index.html',
 				}
 			}
 		},
@@ -168,7 +169,13 @@ module.exports = function(grunt){
 			htmlPages:{
 				files: ['<%= vars.dirs.src %>' + '/html/*.html'],
 				tasks: 'prepareHtmlPages'
-			}
+			},
+			// livereload: {
+			// 	options: { 
+			// 		livereload: true
+			// 	},
+			// 	files: ['min/**/*'],
+			// }
 		}
 
 	});
