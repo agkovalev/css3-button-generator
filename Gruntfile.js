@@ -59,8 +59,21 @@ module.exports = function(grunt){
 				banner: '/*! MINI <%= pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */\n'
 			},
 			build: {
-				src: '<%= vars.dirs.min %>' + '/built.js',
-				dest: '<%= vars.dirs.min %>' + '/built.min.js'
+				src: '<%= vars.dirs.min %>/built.js',
+				dest: '<%= vars.dirs.min %>/built.min.js'
+			}
+		},
+
+		less: {
+			bootswatch: {
+				options: {
+					paths: [
+						// "min"
+					]
+				},
+				files: {
+					'<%= vars.dirs.src %>/css/lumen.css': '<%= vars.dirs.src %>/less/*.less'
+				}
 			}
 		},
 
@@ -70,8 +83,9 @@ module.exports = function(grunt){
 					banner: '/*! MINI <%= pkg.name %> - v<%= pkg.version %> - ' + '<%= grunt.template.today("yyyy-mm-dd") %> */\n'
 				},
 				files: {
-					'<%= vars.dirs.min %>' + '/built.min.css': [
-						'<%= vars.dirs.src %>' + '/css/*.css'
+					'<%= vars.dirs.min %>/built.min.css': [
+						// '<%= vars.dirs.src %>' + '/css/bootstrap/bootstrap.css',
+						'<%= vars.dirs.src %>' + '/css/styles.css'
 					]
 				}
 			}
@@ -118,6 +132,12 @@ module.exports = function(grunt){
 					message: 'Все конкатенировано, сжато и отправлено на FTPush.', //required
 				}	
 			},
+			// prepareLess: {
+			// 	options: {
+			// 		title: 'LESS Подготовлен!',  // optional
+			// 		message: 'Все конвертировано', //required
+			// 	}	
+			// },
 			prepareJsBuild: {
 				options: {
 					title: 'JS Подготовлен!',  // optional
@@ -132,21 +152,16 @@ module.exports = function(grunt){
 			}
 		},
 
-		// concurrent: {
-		// 	default1: ['concat', 'uglify'],
-		// 	default2: ['cssmin', 'htmlmin']
-		// },
-
 		watch: {
 			css:{
 				files: [
 					'<%= vars.dirs.src %>' + '/css/*.css'
 				],
 				tasks: 'prepareCss'
-			}
+			},
 			jsBuild:{
 				files: [
-					'<%= vars.dirs.src %>' + '/js/*.js'
+					'src/js/*.js'
 				],
 				tasks: 'prepareJsBuild'
 			},
@@ -161,26 +176,28 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	// grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-htmlmin');
 	grunt.loadNpmTasks('grunt-ftpush');
 	grunt.loadNpmTasks('grunt-notify');
-	grunt.loadNpmTasks('grunt-concurrent');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	
 	// grunt.registerTask('default', ['concurrent:default1', 'concurrent:default2', 'ftpush', 'notify:standard']);
 	grunt.registerTask('default', [
 		'concat', 
-		'uglify', 
+		'uglify',
+		// 'less',
 		'cssmin', 
 		'htmlmin',
 		'notify:standard', 
 		'watch'
 	]);
 	
-	grunt.registerTask('prepareCss', ['cssmin', 'ftpush:build', 'notify:prepareCss']);
-	grunt.registerTask('prepareJsBuild', ['concat:dist', 'uglify:build', 'ftpush:build', 'notify:prepareJsBuild']);
-	grunt.registerTask('prepareHtmlPages', ['htmlmin:pages', 'ftpush:pages', 'notify:prepareHtmlPages']);
+	// grunt.registerTask('prepareLess', ['less', 'notify:prepareLess']);
+	grunt.registerTask('prepareCss', ['cssmin', 'notify:prepareCss']);
+	grunt.registerTask('prepareJsBuild', ['concat:dist', 'uglify:build', 'notify:prepareJsBuild']);
+	grunt.registerTask('prepareHtmlPages', ['htmlmin:pages', 'notify:prepareHtmlPages']);
 
 }

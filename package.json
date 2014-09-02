@@ -1,7 +1,12 @@
 {
   	"name": "css3-button-generator",
   	"description": "Homework 2 for Loftschool 2",
+  	"license": "MIT",
   	"version": "0.0.1",
+  	"repository" : { 
+  		"type" : "git",
+		"url" : "http://github.com/agkovalev/css3-button-generator.git"
+	},
   	"devDependencies": {
 		"grunt": "latest",
 		"load-grunt-config": "latest",
