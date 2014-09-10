@@ -1,4 +1,4 @@
-/*! css3-button-generator - v0.0.1 - 2014-09-02 */
+/*! css3-button-generator - v0.0.1 - 2014-09-10 */
 
 +function ($) {
   'use strict';
@@ -2147,7 +2147,7 @@
 					// console.log(event);
 					// console.log("onSlide");
 					// console.log(ui);
-					mainApp.demo.triggerEvents.demoChanged({
+					mainApp.demo.triggerEvents.demoCssChanged({
 						property:	this.options.cssProperty,
 						value:		ui.value + this.options.cssUnits
 					});
@@ -2181,21 +2181,36 @@
 		$selector: undefined,
 
 		triggerEvents:{
-			demoChanged: function(data){
+			demoCssChanged: function(data){
 				// console.log(data);
-				$(mainApp.demo.selector).trigger("demoChanged", data);
+				$(mainApp.demo.selector).trigger("demoCssChanged", data);
+			},
+			demoHtmlChanged: function(data){
+				// console.log(data);
+				$(mainApp.demo.selector).trigger("demoHtmlChanged", data);
 			}
 		},
 
 		setUpModuleListeners: function(){
-			$(mainApp.demo.selector).on("demoChanged", $.proxy(this.onDemoChanged, this));
+			$(mainApp.demo.selector).on("demoCssChanged", $.proxy(this.onDemoCssChanged, this));
+			$(mainApp.demo.selector).on("demoHtmlChanged", $.proxy(this.onDemoHtmlChanged, this));
+			$('#btn_text').on("keyup", this.onBtnTextChange);
 		},
 
-		onDemoChanged: function(e, data){
+		onBtnTextChange: function(e){
+			// console.log(e);
+			mainApp.demo.$selector.text($(this).val());
+		},
+
+		onDemoCssChanged: function(e, data){
 			// console.log(data);
 			this.$selector.css(data.property, data.value);
 			this.properties[data.property] = data.value;
 			// console.log(this.properties);
+		},
+
+		onDemoHtmlChanged: function(e, data){
+			console.log(data);
 		},
 
 		properties:{},
@@ -2231,7 +2246,7 @@
 			var $field = $(this.selectors.css).find('textarea'),
 				data = mainApp.demo.properties,
 				textToInsert = "";
-			console.log(data);
+			// console.log(data);
 			for (var key in data){
 			    // console.log(key +':' + data[key]);
 			    textToInsert += (key + ':' + data[key] + ';\n');
@@ -2242,7 +2257,7 @@
 			var $field = $(this.selectors.sass).find('textarea'),
 				data = mainApp.demo.properties,
 				textToInsert = "";
-			console.log(data);
+			// console.log(data);
 			for (var key in data){
 				if(key === 'border-radius')
 			    	textToInsert += ('+' + key + '(' + data[key] + ')\n');
@@ -2267,6 +2282,16 @@
 				targetSelector:		mainApp.demo.selector
 			});
 			mainApp.sliders({
+				selector:			'#slider-bsize',
+				cssProperty: 		"border-width",
+				cssUnits: 			"px",
+				targetSelector:		mainApp.demo.selector,
+				sliderOptions:		{
+					min: 0,
+					max: 20
+				}
+			});
+			mainApp.sliders({
 				selector:			'#slider-fsize',
 				cssProperty:		"font-size",
 				cssUnits:			"px",
@@ -2285,5 +2310,7 @@
 
 };
 (function($, app){
+
 	app.init.all();
+
 })(jQuery, mainApp);

@@ -104,6 +104,18 @@ module.exports = function(grunt){
 			}
 		},
 
+		imagemin: {
+			dynamic: {                         // Another target
+				files: [{
+					expand: true,                  // Enable dynamic expansion
+					cwd: 'src/img',                   // Src matches are relative to this path
+					src: ['**/*.{png,jpg,gif}'],   // Actual patterns to match
+					dest: 'min/img'                  // Destination path prefix
+				}]
+			}
+		},
+
+
 		ftpush: {
 			// build: {
 			// 	auth: {
@@ -150,7 +162,17 @@ module.exports = function(grunt){
 					title: 'Сборка страниц HTML готова!',  // optional
 					message: 'HTMLmin & FTPush.', //required
 				}	
+			},
+			prepareImages: {
+				options: {
+					title: 'Оптимизация картинок готова!',  // optional
+					message: 'Круто.', //required
+				}	
 			}
+		},
+
+		newer: {
+			
 		},
 
 		watch: {
@@ -170,6 +192,10 @@ module.exports = function(grunt){
 				files: ['<%= vars.dirs.src %>' + '/html/*.html'],
 				tasks: 'prepareHtmlPages'
 			},
+			images:{
+				files: ['<%= vars.dirs.src %>' + '/img/*.{png,jpg,gif}'],
+				tasks: 'prepareImages'
+			},
 			// livereload: {
 			// 	options: { 
 			// 		livereload: true
@@ -186,25 +212,28 @@ module.exports = function(grunt){
 	// grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-htmlmin');
+	grunt.loadNpmTasks('grunt-contrib-imagemin');
 	grunt.loadNpmTasks('grunt-ftpush');
 	grunt.loadNpmTasks('grunt-notify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-newer');
 
 	
 	// grunt.registerTask('default', ['concurrent:default1', 'concurrent:default2', 'ftpush', 'notify:standard']);
 	grunt.registerTask('default', [
-		'concat', 
-		'uglify',
+		'newer:concat', 
+		'newer:uglify',
 		// 'less',
-		'cssmin', 
-		'htmlmin',
+		'newer:cssmin', 
+		'newer:htmlmin',
 		'notify:standard', 
 		'watch'
 	]);
 	
 	// grunt.registerTask('prepareLess', ['less', 'notify:prepareLess']);
-	grunt.registerTask('prepareCss', ['cssmin', 'notify:prepareCss']);
-	grunt.registerTask('prepareJsBuild', ['concat:dist', 'uglify:build', 'notify:prepareJsBuild']);
-	grunt.registerTask('prepareHtmlPages', ['htmlmin:pages', 'notify:prepareHtmlPages']);
+	grunt.registerTask('prepareCss', ['newer:cssmin', 'notify:prepareCss']);
+	grunt.registerTask('prepareJsBuild', ['newer:concat:dist', 'newer:uglify:build', 'notify:prepareJsBuild']);
+	grunt.registerTask('prepareHtmlPages', ['newer:htmlmin:pages', 'notify:prepareHtmlPages']);
+	grunt.registerTask('prepareImages', ['newer:imagemin', 'notify:prepareImages']);
 
 }
