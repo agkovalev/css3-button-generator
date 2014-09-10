@@ -1,0 +1,30 @@
+.options
+
+.options__header
+
+.options__panel
+
+.option--slider
+
+.ui-slider 
+	.ui-widget-header
+		border: 0
+		background: $brand-primary
+		color: #222222
+		font-weight: bold
+
+	.ui-slider-handle
+		$handle-width: 20
+		background-image: url('../src/img/handle.png')
+		+border-radius($handle-width/2+px)
+		width: $handle-width+px
+		height: $handle-width+px
+		box-shadow: 0 0 2px 0px black
+
+		&.ui-state-focus:focus
+			outline: 0
+
+.option--text
+
+.option__header
+	font-size: 1.5em

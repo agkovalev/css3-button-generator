@@ -1,4 +1,4 @@
-/*! css3-button-generator - v0.0.1 - 2014-09-10 */
+/*! css3-button-generator - v0.0.1 - 2014-09-11 */
 
 +function ($) {
   'use strict';
@@ -2111,11 +2111,11 @@
 				cssUnits: 			"",
 				sliderOptions:		{
 					// disabled:boolean(false)
-					animate:true,//boolean,string,integer(false)
+					animate: true,//boolean,string,integer(false)
 					max: 50,//integer(100)
 					min: 0, //integer(0)
 					// orientation:string('horizontal')
-					// range:boolean,string(false)
+					range: 'min',
 					step: 1,//integer(1)
 					// value:integer(0)
 					// values:array(null)
@@ -2134,7 +2134,8 @@
 				onSlideCreate: function( event, ui ) {
 					// console.log(event);
 					// console.log("onSlideCreate");
-					// console.log(ui);
+					// console.log(this.options.sliderOptions.value);
+					$(mainApp.demo.selector).css(this.options.cssProperty, this.options.sliderOptions.value);
 				},
 				onSlideChange: function( event, ui ) {
 					// console.log(event);
@@ -2167,7 +2168,7 @@
 			init: function(options){
 				if(undefined !== options)
 					$.extend(true, this.options, options);
-				console.log(this.options);
+				// console.log(this.options);
 				this.setUpModuleListeners();
 				$(this.options.selector).slider(this.options.sliderOptions);
 			}
@@ -2182,7 +2183,7 @@
 
 		triggerEvents:{
 			demoCssChanged: function(data){
-				// console.log(data);
+				console.log(data);
 				$(mainApp.demo.selector).trigger("demoCssChanged", data);
 			},
 			demoHtmlChanged: function(data){
@@ -2210,7 +2211,7 @@
 		},
 
 		onDemoHtmlChanged: function(e, data){
-			console.log(data);
+			// console.log(data);
 		},
 
 		properties:{},
@@ -2279,7 +2280,10 @@
 				selector:			'#slider-bradius',
 				cssProperty: 		"border-radius",
 				cssUnits: 			"px",
-				targetSelector:		mainApp.demo.selector
+				targetSelector:		mainApp.demo.selector,
+				sliderOptions:		{
+					value: 4
+				}
 			});
 			mainApp.sliders({
 				selector:			'#slider-bsize',
@@ -2288,7 +2292,8 @@
 				targetSelector:		mainApp.demo.selector,
 				sliderOptions:		{
 					min: 0,
-					max: 20
+					max: 20,
+					value: 2
 				}
 			});
 			mainApp.sliders({
@@ -2298,7 +2303,21 @@
 				targetSelector:		mainApp.demo.selector,
 				sliderOptions:		{
 					min: 10,
-					max: 72
+					max: 72,
+					value: 18
+				}
+			});
+			mainApp.sliders({
+				selector:			'#slider-padding',
+				cssProperty:		"padding",
+				cssUnits:			"px",
+				targetSelector:		mainApp.demo.selector,
+				sliderOptions:		{
+					min: 0,
+					max: 40,
+					// range: true,
+					// values: [5, 10]
+					value: 10
 				}
 			});
 		},
