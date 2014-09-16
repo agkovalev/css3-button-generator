@@ -1,6 +1,15 @@
 {
-	"minimum-stability": "dev",
-	"require":{
-		"phpmailer/phpmailer": "dev-master"
-	}
+    "name": "agkovalev/css3btngen",
+    "description": "CSS3 Button Generator Send Script",
+    "require": {
+        "phpmailer/phpmailer": "5.2.8"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "agkovalev",
+            "email": "kovalev.agk@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
 }
