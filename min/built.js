@@ -2249,8 +2249,8 @@
 				textToInsert = "";
 			// console.log(data);
 			for (var key in data){
-			    // console.log(key +':' + data[key]);
-			    textToInsert += (key + ':' + data[key] + ';\n');
+				// console.log(key +':' + data[key]);
+				textToInsert += (key + ':' + data[key] + ';\n');
 			}
 			$field.text(textToInsert);
 		},
@@ -2261,10 +2261,10 @@
 			// console.log(data);
 			for (var key in data){
 				if(key === 'border-radius')
-			    	textToInsert += ('+' + key + '(' + data[key] + ')\n');
-			    else{
-			    	textToInsert += (key + ':' + data[key] + '\n');
-			    }
+					textToInsert += ('+' + key + '(' + data[key] + ')\n');
+				else{
+					textToInsert += (key + ':' + data[key] + '\n');
+				}
 			}
 			$field.text(textToInsert);
 		}
@@ -2328,8 +2328,98 @@
 	}
 
 };
-(function($, app){
+
+var formApp = {
+	$form: undefined,
+	formAction: '/php/send.php',
+	formMethod: 'POST',
+
+	setUpListeners: function () {
+		this.$form.on('submit', this.submitForm);
+		this.$form.on('keydown', 'input', this.removeError);
+	},
+
+	submitForm: function (e) {
+		e.preventDefault();
+		 
+		var $form = formApp.$form,
+			submitBtn = $form.find('#submitBtn');
+
+		if( formApp.validateForm($form) === false ) 
+			return false;
+
+		submitBtn.attr('disabled', 'disabled');
+
+		var str = $form.serialize();
+
+		$.ajax({
+			url: formApp.formAction,
+			type: formApp.formMethod,
+			data: str
+		})
+		.done(function(msg) {
+			if(msg === "OK"){
+				var result = "<div = 'bg-success'>Спасибо за заявку! Мы вам перезвоним!</div>"
+				$form.html(result);
+			}else{
+				$form.append(msg);
+			}
+		})
+		.always(function() {
+			submitBtn.removeAttr('disabled');
+		});
+		 
+	},
+
+	validateForm: function (form){
+		var inputs = form.find('input'),
+			valid = true;
+
+		// console.log(form);
+
+		inputs.tooltip('destroy');
+
+		$.each(inputs, function(index, val) {
+			var input = $(val),
+				val = input.val(),
+				formGroup = input.parents('.form-group'),
+				label = formGroup.find('label').text().toLowerCase(),
+				textError = 'Введите ' + label;
+
+			// console.log(formGroup);
+			if(val.length === 0){
+				formGroup.addClass('has-error').removeClass('has-success');
+				input.tooltip({
+					trigger: 'manual',
+					placement: 'right',
+					title: textError
+				}).tooltip('show');
+				valid = false;
+			}else{
+				formGroup.addClass('has-success').removeClass('has-error');
+			}
+		});
+
+		return valid;
+	},
+
+	removeError: function () {
+		$(this).tooltip('destroy').parents('.form-group').removeClass('has-error');
+	},
+			  
+	init: function (formSelector) {
+		if(undefined !== formSelector)
+			this.$form = $(formSelector);
+		else
+			this.$form = $('form');
+		this.setUpListeners();
+	}
+
+}; 
+
+(function($, app, form){
 
 	app.init.all();
+	form.init('#form');
 
-})(jQuery, mainApp);
+})(jQuery, mainApp, formApp);

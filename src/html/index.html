@@ -81,7 +81,7 @@
 
 				<!-- COL FORM -->
 				<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2">
-					<form action="/php/send.php" class="" method="post" accept-charset="utf-8">
+					<form id="form" action="/php/send.php" class="" method="post" accept-charset="utf-8">
 						
 						<h2 class="section__header results__header">Result</h2>
 
@@ -154,10 +154,11 @@
 								<h2 class="section__header results__header">Will be sent on this email above:</h2>
 								
 								<div class="form-group">
-									<input type="email" name="email" id="email" class="form-control form__input form__input--email" value="" required="required" placeholder="Enter Email here" title="Email" />
+									<label></label>
+									<input type="text" name="email" id="email" class="form-control form__input form__input--email" value="" placeholder="Enter Email here" title="Email" />
 								</div>
 								
-								<button type="submit" class="btn btn-primary btn-block btn-lg form__submit">Send it!</button>
+								<button id="submitBtn" type="submit" class="btn btn-primary btn-block btn-lg form__submit">Send it!</button>
 
 							</div>							
 

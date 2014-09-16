@@ -2,12 +2,8 @@
 header("Content-type: text/html; charset=UTF-8");
 require_once("../vendor/autoload.php");
 
-// $mail = new PHPMailer();
-
-// var_dump($mail);
-
 define("CONTACT_FORM", 'kovalev.agk@gmail.com');
- 
+
 function ValidateEmail($value){
 	$regex = '/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i';
 
@@ -20,42 +16,63 @@ function ValidateEmail($value){
 	return empty($string) ? true : false;
 }
 
-$post = (!empty($_POST)) ? true : false;
+$emailTo = !empty($_POST['email']) ? $_POST['email'] : 'me@agkovalev.com';
 
-if($post){
+$postNotEmpty = ( !empty( $_POST ) ) ? true : false;
+if( $postNotEmpty ){
 
-	$name = stripslashes($_POST['name']);
-	$phone = stripslashes($_POST['phone']);
-	$email = stripslashes($_POST['email']);
-	$subject = 'Заявка';
-	$error = '';    
-	$message = '
-		<html>
-				<head>
-						<title>Заявка</title>
-				</head>
-				<body>
-						<p>Имя: '.$name.'</p>
-						<p>Телефон : '.$phone.'</p> 
-						<p>Email : '.$email.'</p>
-				</body>
-		</html>';
+	$error = false;
 
-	if (!ValidateEmail($email)){
+	if ( !ValidateEmail( $emailTo ) ){
 		$error = 'Email введен неправильно!';
 	}
 
-	if(!$error){
-		$mail = mail(CONTACT_FORM, $subject, $message,
-			 "From: ".$name." <".$email.">\r\n"
-			."Reply-To: ".$email."\r\n"
-			."Content-type: text/html; charset=utf-8 \r\n"
-			."X-Mailer: PHP/" . phpversion());
+	if ( !$error ) {
+		$mail = new PHPMailer();
+		//Tell PHPMailer to use SMTP
+		$mail->isSMTP();
+		//Enable SMTP debugging
+		// 0 = off (for production use)
+		// 1 = client messages
+		// 2 = client and server messages
+		$mail->SMTPDebug = 2;
+		//Ask for HTML-friendly debug output
+		$mail->Debugoutput = 'html';
+		//Set the hostname of the mail server
+		$mail->Host = "smtp.gmail.com";
+		//Set the SMTP port number - likely to be 25, 465 or 587
+		$mail->Port = 465;
+		//Whether to use SMTP authentication
+		$mail->SMTPAuth = true;
+		$mail->SMTPSecure = 'ssl';
+		//Username to use for SMTP authentication
+		$mail->Username = "account@gmail.com";
+		//Password to use for SMTP authentication
+		$mail->Password = "Password";
+		//Set who the message is to be sent from
+		$mail->setFrom( CONTACT_FORM, 'TEST css3btngen' );
+		//Set an alternative reply-to address
+		// $mail->addReplyTo('replyto@example.com', 'First Last');
+		//Set who the message is to be sent to
+		$mail->addAddress( $emailTo, 'Dear user');
+		//Set the subject line
+		$mail->Subject = 'PHPMailer TEST css3btngen';
+		//Read an HTML message body from an external file, convert referenced images to embedded,
+		//convert HTML into a basic plain-text alternative body
+		$mail->msgHTML( file_get_contents('send.html'), dirname(__FILE__) );
+		//Replace the plain text body with one created manually
+		$mail->AltBody = 'This is a plain-text message body';
+		//Attach an image file
+		// $mail->addAttachment('images/phpmailer_mini.png');
 
-		if($mail){
-			echo 'OK';
+		//send the message, check for errors
+		if ( !$mail->send() ) {
+			echo "Mailer Error: " . $mail->ErrorInfo;
+		} else {
+			echo "Message sent!";
 		}
-	}else{
+	}
+	else {
 		echo '<div class="bg-danger">'.$error.'</div>';
 	}
 

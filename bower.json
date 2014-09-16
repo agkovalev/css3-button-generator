@@ -1,0 +1,17 @@
+{
+  "name": "css3-button-generator",
+  "version": "0.0.1",
+  "homepage": "https://github.com/agkovalev/css3-button-generator",
+  "authors": [
+    "agkovalev <kovalev.agk@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -13,6 +13,9 @@ node_modules
 .sass-cache
 *.scssc
 
+#BOWER
+bower_components
+
 #COMPOSER
 vendor
 composer.lock
