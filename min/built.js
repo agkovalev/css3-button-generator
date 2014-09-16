@@ -1,4 +1,4 @@
-/*! css3-button-generator - v0.0.1 - 2014-09-11 */
+/*! css3-button-generator - v0.0.1 - 2014-09-16 */
 
 +function ($) {
   'use strict';

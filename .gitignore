@@ -12,3 +12,7 @@ node_modules
 #SASS
 .sass-cache
 *.scssc
+
+#COMPOSER
+vendor
+composer.lock
