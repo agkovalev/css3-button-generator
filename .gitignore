@@ -8,6 +8,7 @@
 #Node.JS
 node_modules
 *.log
+npm-debug.log
 
 #SASS
 .sass-cache
